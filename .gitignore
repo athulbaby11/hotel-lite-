@@ -12,6 +12,7 @@ ENV/
 # Django local data
 db.sqlite3
 media/
+staticfiles/
 
 # Logs and local env files
 *.log
