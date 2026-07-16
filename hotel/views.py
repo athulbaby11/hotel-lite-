@@ -85,3 +85,7 @@ def register(request):
         return render(request, 'register.html', {'success_message': success_message})
     return render(request, 'register.html')
 
+
+def about(request):
+    return render(request, 'about.html')
+
