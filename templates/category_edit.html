@@ -1,0 +1,47 @@
+{% load static %}
+{% include 'header.html' %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-sm" style="max-width: 400px; width: 100%;">
+        <div class="card-body p-4">
+            <h4 class="card-title mb-3 text-center">Edit Category</h4>
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="mb-2">
+                    <label for="main_category" class="form-label">Main Category</label>
+                    <select class="form-select" id="main_category" name="main_category" required>
+                        {% for mc in maincategories %}
+                        <option value="{{ mc.id }}" {% if mc.id == category.main_category.id %}selected{% endif %}>{{ mc.heading }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="name" class="form-label">Category Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ category.name }}" required>
+                </div>
+                <div class="mb-2">
+                    <label for="price" class="form-label">Price (optional)</label>
+                    <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{ category.price|default_if_none:'' }}">
+                </div>
+                <div class="mb-2">
+                    <label for="description" class="form-label">Description (optional)</label>
+                    <textarea class="form-control" id="description" name="description" rows="2">{{ category.description|default_if_none:'' }}</textarea>
+                </div>
+                <div class="mb-2">
+                    <label for="image" class="form-label">Image (optional)</label>
+                    {% if category.image %}
+                        <div class="mb-2">
+                            <img src="{{ category.image.url }}" alt="Current image" style="max-width: 120px; max-height: 120px; border-radius: 8px;">
+                            <div><small class="text-muted">Current image</small></div>
+                        </div>
+                    {% endif %}
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <div><small class="text-muted">Leave blank to keep current image.</small></div>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="/categories/" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}

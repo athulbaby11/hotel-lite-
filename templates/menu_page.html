@@ -1,0 +1,257 @@
+{% load static %}
+{% include 'header.html' %}
+<style>
+	:root {
+		--menu-bg-1: #fff3e0;
+		--menu-bg-2: #fffde7;
+		--menu-title-1: #ff7e6b;
+		--menu-title-2: #e67e22;
+		--menu-card-shadow: 0 10px 28px rgba(44, 62, 80, 0.14);
+	}
+
+	.bubble-bg {
+		position: fixed;
+		top: 0; left: 0; width: 100vw; height: 100vh;
+		z-index: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+	.bubble {
+		position: absolute;
+		border-radius: 50%;
+		opacity: 0.18;
+		filter: blur(1.5px);
+		animation: bubble-move 18s linear infinite;
+	}
+	@keyframes bubble-move {
+		0% { transform: translateY(0) scale(1); opacity: 0.18; }
+		80% { opacity: 0.22; }
+		100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+	}
+
+	.menu-main-title {
+		color: var(--accent);
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		letter-spacing: 2px;
+		font-size: 2.7rem;
+		text-shadow: 0 2px 12px #ffe0b2;
+	}
+
+	.menu-category-title {
+		font-size: 2rem;
+		letter-spacing: 1.5px;
+		background: linear-gradient(90deg, var(--menu-title-1) 40%, var(--menu-title-2) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color: transparent;
+		position: relative;
+		margin-bottom: 0.7em;
+	}
+
+	.menu-category-title .line {
+		display: block;
+		height: 6px;
+		width: 80px;
+		background: linear-gradient(90deg, #e67e22 40%, #fff3e0 100%);
+		border-radius: 3px;
+		margin-top: 6px;
+	}
+
+	.menu-card-item {
+		background: linear-gradient(120deg, #fffdf8 10%, #fff3e0 55%, #fffde7 100%);
+		border-radius: 16px;
+		border: 1px solid rgba(230, 126, 34, 0.2);
+		box-shadow: var(--menu-card-shadow);
+		transition: transform 0.22s ease, box-shadow 0.22s ease;
+		overflow: hidden;
+	}
+
+	.menu-card-item:hover {
+		transform: translateY(-4px) scale(1.01);
+		box-shadow: 0 14px 34px rgba(230, 126, 34, 0.26);
+	}
+
+	.menu-card-body {
+		padding: 1.1rem 1.3rem;
+		position: relative;
+	}
+
+	.menu-item-name {
+		color: #00796b;
+		font-weight: 800;
+		font-size: 1.18rem;
+		letter-spacing: 0.8px;
+		text-shadow: 0 2px 8px #e0f7fa;
+	}
+
+	.menu-item-price {
+		background: linear-gradient(90deg, #388e3c 20%, #43a047 100%) !important;
+		color: #fff;
+		font-size: 0.98rem;
+		padding: 0.45em 1em;
+		border-radius: 1em;
+		box-shadow: 0 4px 10px rgba(56, 142, 60, 0.25);
+	}
+
+	.menu-item-desc {
+		color: #a15a18;
+		font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+		font-size: 1rem;
+		font-weight: 600;
+		letter-spacing: 0.3px;
+		background: linear-gradient(90deg, #fffde7 60%, #ffe0b2 100%);
+		border-radius: 0.55em;
+		padding: 0.2em 0.7em;
+		display: inline-block;
+	}
+
+	.menu-item-image {
+		max-width: 100px;
+		max-height: 100px;
+		border-radius: 12px;
+		box-shadow: 0 8px 16px rgba(230, 126, 34, 0.25);
+		border: 2px solid rgba(255, 255, 255, 0.8);
+	}
+
+	@media (max-width: 767px) {
+		.menu-main-title {
+			font-size: 2rem;
+			letter-spacing: 1px;
+		}
+
+		.menu-category-title {
+			font-size: 1.5rem;
+		}
+	}
+</style>
+<div class="bubble-bg">
+	<div class="bubble" style="left: 10vw; width: 80px; height: 80px; background: #e67e22; animation-delay: 0s;"></div>
+	<div class="bubble" style="left: 30vw; width: 50px; height: 50px; background: #ff7e6b; animation-delay: 3s;"></div>
+	<div class="bubble" style="left: 60vw; width: 100px; height: 100px; background: #388e3c; animation-delay: 6s;"></div>
+	<div class="bubble" style="left: 80vw; width: 60px; height: 60px; background: #e0f7fa; animation-delay: 1.5s;"></div>
+	<div class="bubble" style="left: 50vw; width: 40px; height: 40px; background: #ffe0b2; animation-delay: 7.5s;"></div>
+</div>
+<script>
+	// Randomize bubble vertical start position and restart animation
+	document.querySelectorAll('.bubble').forEach(function(bubble) {
+		var delay = parseFloat(bubble.style.animationDelay) || 0;
+		bubble.style.top = (80 + Math.random() * 10) + 'vh';
+		setTimeout(function repeat() {
+			bubble.style.transition = 'none';
+			bubble.style.top = (80 + Math.random() * 10) + 'vh';
+			bubble.offsetHeight; // force reflow
+			bubble.style.transition = '';
+			bubble.style.animation = 'bubble-move 18s linear infinite';
+			setTimeout(repeat, 18000);
+		}, delay * 1000);
+	});
+</script>
+<div class="hero" style="padding: 100px 0 80px; min-height: 100vh; background: linear-gradient(90deg, #fff3e0 60%, #fffde7 100%);">
+	<div class="container my-5">
+		<h2 class="section-title menu-main-title">Menu Card</h2>
+		<div class="mb-4 text-center">
+			<span style="display: inline-block; background: linear-gradient(90deg, #e67e22 40%, #fff3e0 100%); color: #fff; font-size: 1.2rem; font-weight: 600; border-radius: 1.5em; padding: 0.4em 1.6em; box-shadow: 0 2px 8px #ffe0b2aa; letter-spacing: 1.5px;">Kerala Restaurant</span>
+		</div>
+		<div class="menu-timeline" style="position: relative; margin-left: 0; margin-right: 0;">
+		  {% for maincat in maincategories %}
+		<div class="mb-5 row justify-content-center align-items-start gx-0" style="max-width: 900px; margin-left: auto; margin-right: auto;">
+			{% if forloop.counter0|divisibleby:2 %}
+				{% if maincat.image %}
+					<div class="col-12 col-md-4 d-flex justify-content-center mb-3 mb-md-0">
+						<img src="{{ maincat.image.url }}" alt="{{ maincat.heading }} image" class="img-fluid" style="width: 220px; max-width: 100%; height: 220px; object-fit: cover; border-radius: 18px; box-shadow: 0 4px 24px var(--accent); background: #fffbe6;">
+					</div>
+				{% else %}
+					<div class="col-12 col-md-4"></div>
+				{% endif %}
+				<div class="col-12 col-md-8">
+					<h4 class="fw-bold pb-2 text-start menu-category-title">
+						{{ maincat.heading }}
+						<span class="line"></span>
+					</h4>
+					{% if maincat.categories.all %}
+						<div>
+							{% for cat in maincat.categories.all %}
+								<div class="card h-100 mb-3 menu-card-item">
+									<div class="card-body menu-card-body" style="color: var(--text);">
+										<div class="row align-items-center mb-2">
+											<div class="col">
+												<span class="h5 mb-0 menu-item-name">{{ cat.name }}</span>
+											</div>
+											{% if cat.price %}
+												<div class="col-auto text-end">
+													<span class="badge bg-success menu-item-price">₹{{ cat.price }}</span>
+												</div>
+											{% endif %}
+										</div>
+										<div class="row align-items-center mb-2">
+											{% if cat.description %}
+												<div class="col ps-0">
+													<p class="mb-0 menu-item-desc">{{ cat.description }}</p>
+												</div>
+											{% endif %}
+											{% if cat.image %}
+												<div class="col-auto">
+													<img src="{{ cat.image.url }}" alt="{{ cat.name }} image" class="menu-item-image">
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			{% else %}
+				<div class="col-12 col-md-8 order-2 order-md-1">
+					<h4 class="fw-bold pb-2 text-end menu-category-title">
+						{{ maincat.heading }}
+						<span class="line ms-auto"></span>
+					</h4>
+					{% if maincat.categories.all %}
+						<div>
+							{% for cat in maincat.categories.all %}
+								<div class="card h-100 mb-3 menu-card-item">
+									<div class="card-body menu-card-body" style="color: var(--text);">
+										<div class="row align-items-center mb-2">
+											<div class="col">
+												<span class="h5 mb-0 menu-item-name">{{ cat.name }}</span>
+											</div>
+											{% if cat.price %}
+												<div class="col-auto text-end">
+													<span class="badge bg-success menu-item-price">₹{{ cat.price }}</span>
+												</div>
+											{% endif %}
+										</div>
+										<div class="row align-items-center mb-2">
+											{% if cat.description %}
+												<div class="col ps-0">
+													<p class="mb-0 menu-item-desc">{{ cat.description }}</p>
+												</div>
+											{% endif %}
+											{% if cat.image %}
+												<div class="col-auto">
+													<img src="{{ cat.image.url }}" alt="{{ cat.name }} image" class="menu-item-image">
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+				{% if maincat.image %}
+					<div class="col-12 col-md-4 d-flex justify-content-center order-1 order-md-2 mb-3 mb-md-0">
+						<img src="{{ maincat.image.url }}" alt="{{ maincat.heading }} image" class="img-fluid" style="width: 220px; max-width: 100%; height: 220px; object-fit: cover; border-radius: 18px; box-shadow: 0 4px 24px var(--accent); background: #fffbe6;">
+					</div>
+				{% else %}
+					<div class="col-12 col-md-4 order-1 order-md-2"></div>
+				{% endif %}
+			{% endif %}
+		</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% include 'footer.html' %}

@@ -1,0 +1,46 @@
+{% load static %}
+{% include 'header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin Login | Kerala Street</title>
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-header text-center">
+						<h3>Admin Login</h3>
+					</div>
+					<div class="card-body">
+						<form method="post">
+							{% csrf_token %}
+							<div class="mb-3">
+								<label for="usermail" class="form-label">Email</label>
+								<input type="text" class="form-control" id="usermail" name="usermail" required>
+							</div>
+							<div class="mb-3">
+								<label for="userpassword" class="form-label">Password</label>
+								<input type="password" class="form-control" id="userpassword" name="userpassword" required>
+							</div>
+							<button type="submit" class="btn btn-primary w-100">Login</button>
+						</form>
+						{% if error_message %}
+							<div class="alert alert-danger mt-3">{{ error_message }}</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="text-center mt-3">
+					<small>Only admin users are allowed to login here.</small>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+{% include 'footer.html' %}

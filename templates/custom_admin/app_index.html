@@ -1,0 +1,27 @@
+{% extends "admin/app_index.html" %}
+{% block content %}
+<h2>Manage Home Page</h2>
+<ul>
+  {% for model in app_list.models %}
+    {% if model.object_name in ["GalleryImage", "HeroImage", "News"] %}
+      <li><a href="{{ model.admin_url }}">{{ model.name }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
+<h2>Manage Menu</h2>
+<ul>
+  {% for model in app_list.models %}
+    {% if model.object_name in ["MainCategory", "Category"] %}
+      <li><a href="{{ model.admin_url }}">{{ model.name }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
+<h2>Other</h2>
+<ul>
+  {% for model in app_list.models %}
+    {% if model.object_name not in ["GalleryImage", "HeroImage", "News", "MainCategory", "Category"] %}
+      <li><a href="{{ model.admin_url }}">{{ model.name }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
